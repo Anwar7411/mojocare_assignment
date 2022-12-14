@@ -4,7 +4,15 @@ const bcrypt = require('bcrypt');
 const cors = require("cors")
 
 const {connection} = require("./server")
-const {AppointmentRoute}=require('./routes/Appointment.route')
+const {AppointmentRoute}=require('./routes/Appointment.route');
+const { AdminRoute } = require("./routes/Admin.route");
+const { DoctorModel } = require("./models/Doctor.model");
+const { UserModel } = require("./models/Users.model");
+const { AdminModel } = require("./models/Admin.model");
+const { Auth } = require("./middlewares/Authorization");
+const { AdminAuth } = require("./middlewares/AdminAuthorization");
+const { UserRoute } = require("./routes/User.route");
+const { DoctorRoute } = require("./routes/Doctor.route");
 
 const app = express();
 
@@ -13,54 +21,27 @@ app.use(cors({
     origin : "*"
 }))
 
-app.get("/", (req, res) => {
-    res.send("Welcome")
-})
 
-
-
-app.use("/appointment",AppointmentRoute)
-
-
-
-
-
-
-app.post("/signup", async (req, res) => {
-    console.log(req.body)
-    const {email, password} = req.body;
-    const userPresent = await UserModel.findOne({email})
-
-    if(userPresent?.email){
-        res.send("Try loggin in, already exist")
+app.post("/login/:name", async (req, res) => {
+    const {name}=req.params;
+    console.log("params",name)
+    let model="";
+    if(name=="user"){
+        model=UserModel
+    }else if(name=="docter"){
+        model=DoctorModel
+    }else if(name=="admin"){
+        model=AdminModel
     }
-    else{
-        try{
-            bcrypt.hash(password, 4, async function(err, hash) {
-                const user = new UserModel({email,password:hash})
-                await user.save()
-                res.send("Sign up successfull")
-            });
-           
-        }
-       catch(err){
-            console.log(err)
-            res.send("Something went wrong, pls try again later")
-       }
-    }
-    
-})
-
-app.post("/login", async (req, res) => {
     const {email, password} = req.body;
     try{
-        const user = await UserModel.find({email})
+        const user = await model.find({email})
          
       if(user.length > 0){
         const hashed_password = user[0].password;
         bcrypt.compare(password, hashed_password, function(err, result) {
             if(result){
-                const token = jwt.sign({"userID":user[0]._id}, 'hush');
+                const token = jwt.sign({"userid":user[0]._id}, 'login');
                 res.send({"msg":"Login successfull","token" : token})
             }
             else{
@@ -76,14 +57,16 @@ app.post("/login", async (req, res) => {
     }
 })
 
+app.use(Auth)
+app.use("/appointment",AppointmentRoute)
+app.use("/users",UserRoute)
+app.use("/doctor",DoctorRoute)
 
-app.get("/about", (req, res) => {
-    res.send("About us data..")
-})
+app.use(AdminAuth)
+app.use("/admin",AdminRoute)
 
 
-app.use(authenticate)
-app.use("/notes", notesRouter)
+
 
 app.listen(8080, async () => {
     try{

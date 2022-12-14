@@ -1,59 +1,51 @@
 const express=require('express')
+const { AdminModel } = require('../models/Admin.model')
 
 const AdminRoute=express.Router()
 
-AdminRoute.get("/:userid",async(req,res)=>{
-    const userid=req.params;
-    const adminid="";
-    try{
-        if(userid==adminid){
-            const allAppointments=await ApointmentModel.find()
-            res.send(allAppointments)
-        }else{
-            const appointments=await ApointmentModel.find({$or:[{userid},{doctorid:userid}]})       
-            res.send(appointments)
-        }     
-    }
-    catch(err){
-        console.log(err);
-        res.send("Error in getting appointment data please try again later!")
-    }  
-})
-
-AdminRoute.post("/createappointment/:id",async(req,res)=>{
+AdminRoute.post("/signup",async(req,res)=>{
+    const {email,password} = req.body;
     const payload=req.body;
-    const doctorid=req.params;
-    const userid=req.query.userid;
-    const data={...payload,userid,doctorid}
+    const userPresent = await AdminModel.findOne({email})
+
+    if(userPresent?.email){
+        res.send("user already exist!")
+    }
+    else{
+        try{
+            bcrypt.hash(password, 4, async function(err, hash) {
+                const user = new AdminModel({...payload,password:hash})
+                await user.save()
+                res.send("Sign up successfull")
+            });
+           
+        }
+       catch(err){
+            console.log(err)
+            res.send("Something went wrong, pls try again later")
+       }
+    }
+    
+})
+
+
+AdminRoute.delete("/doctordelete/:id",async (req,res)=>{
+    const id=req.params.id;
+    const userid=req.body.userid;
+    console.log("userid2",userid)
     try{
-        const appointments=new ApointmentModel(data);
-        await appointments.save();
-        res.send("Appointment created with doctor Successfully")
+            //await DoctorModel.findByIdAndDelete({_id:id})
+            res.send("Appointment deleted Successfully")
     }
     catch(err){
-        res.send("Error in creating appointment please try again later")
-        console.log(err)
+        res.send("Error in deleting Appointment")
     }
 })
 
-AdminRoute.patch("/edit/:id",async(req,res)=>{
-    const payload=req.body
-    const id=req.params
-    const appointment=await ApointmentModel.findOne({_id:id})
+AdminRoute.delete("/userdelete/:id",async (req,res)=>{
+    const id=req.params.id
     try{
-         await ApointmentModel.findByIdAndUpdate({_id:id},payload)
-            res.send("Appointment Updated Successfully")
-    }
-    catch(err){
-        res.send("Error in updating Appointment")
-    }
-})
-
-AdminRoute.delete("/delete/:id",async (req,res)=>{
-    const id=req.params
-    const appointment=await ApointmentModel.findOne({_id:id})
-    try{
-            await TodoModel.findByIdAndDelete({"_id":Todoid})
+            await DoctorModel.findByIdAndDelete({_id:id})
             res.send("Appointment deleted Successfully")
     }
     catch(err){

@@ -6,8 +6,8 @@ const adoctorSchema = mongoose.Schema({
     password : {type:String,required:true},
     expertise: {type:String,required:true},
     phone:{type:Number,required:true},
-    experience:{type:Number,required:true},
-    adminid:String,
+    image:{type:String,required:true},
+    experience:{type:String,required:true},
 })
 
 const DoctorModel = mongoose.model("doctors", adoctorSchema)
