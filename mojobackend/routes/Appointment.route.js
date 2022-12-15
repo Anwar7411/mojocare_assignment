@@ -3,15 +3,17 @@ const {ApointmentModel}=require('../models/Appointment.model')
 
 const AppointmentRoute=express.Router()
 
-AppointmentRoute.get("/:userid",async(req,res)=>{
-    const userid=req.params.userid;
+AppointmentRoute.get("/",async(req,res)=>{
+    const id=req.body.userid;
     const adminid="6399fc73a8a5115558ab789a";
+    
     try{
-        if(userid==adminid){
+        if(id==adminid){ 
             const allAppointments=await ApointmentModel.find()
-            res.send(allAppointments)
+            res.send({data:allAppointments,userid:id})
         }else{
-            const appointments=await ApointmentModel.find({userid})       
+            const appointments=await ApointmentModel.find({$or:[{userid:id},{docterid:id}]})    
+            
             res.send(appointments)
         }     
     }
@@ -37,12 +39,12 @@ AppointmentRoute.post("/createappointment/:id",async(req,res)=>{
     }
 })
 
-AppointmentRoute.patch("/edit/:id",async(req,res)=>{
+AppointmentRoute.patch("/edit/:userid",async(req,res)=>{
     const payload=req.body
-    const id=req.params.id
-    const appointment=await ApointmentModel.findOne({_id:id})
+    const userid=req.params.userid
+    const appointment=await ApointmentModel.findOne({_id:userid})
     try{
-         await ApointmentModel.findByIdAndUpdate({_id:id},payload)
+         await ApointmentModel.findByIdAndUpdate({_id:userid},payload)
             res.send("Appointment Updated Successfully")
     }
     catch(err){

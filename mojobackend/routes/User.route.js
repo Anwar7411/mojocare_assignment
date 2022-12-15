@@ -1,30 +1,19 @@
-const express=require('express')
+const express=require('express');
+const { DoctorModel } = require('../models/Doctor.model');
 
 const {UserModel}=require('../models/Users.model')
 
 const UserRoute=express.Router();
 
-UserRoute.post("/signup",async(req,res)=>{
-    const {email,password} = req.body;
-    const payload=req.body;
-    const userPresent = await UserModel.findOne({email})
-
-    if(userPresent?.email){
-        res.send("user already exist!")
+UserRoute.get("/getdoctors",async (req,res)=>{
+    const userid=req.body.userid
+    try{
+        const doctor=await DoctorModel.find();
+        res.send({data:doctor,userid:userid})
     }
-    else{
-        try{
-            bcrypt.hash(password, 4, async function(err, hash) {
-                const user = new UserModel({...payload,password:hash})
-                await user.save()
-                res.send("Sign up successfull")
-            });
-           
-        }
-       catch(err){
-            console.log(err)
-            res.send("Something went wrong, pls try again later")
-       }
+    catch(err){
+        console.log("error in getting doctor data",err)
+        res.send("Something went wrong please try again later")
     }
     
 })

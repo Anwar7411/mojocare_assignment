@@ -13,6 +13,7 @@ const { Auth } = require("./middlewares/Authorization");
 const { AdminAuth } = require("./middlewares/AdminAuthorization");
 const { UserRoute } = require("./routes/User.route");
 const { DoctorRoute } = require("./routes/Doctor.route");
+const { SignupRoute } = require("./routes/SignupRoute.route");
 
 const app = express();
 
@@ -24,11 +25,10 @@ app.use(cors({
 
 app.post("/login/:name", async (req, res) => {
     const {name}=req.params;
-    console.log("params",name)
     let model="";
     if(name=="user"){
         model=UserModel
-    }else if(name=="docter"){
+    }else if(name=="doctor"){
         model=DoctorModel
     }else if(name=="admin"){
         model=AdminModel
@@ -45,11 +45,11 @@ app.post("/login/:name", async (req, res) => {
                 res.send({"msg":"Login successfull","token" : token})
             }
             else{
-                res.send("Login failed")
+                res.send("Login failed! wrong password")
             }
       })} 
       else{
-        res.send("Login failed")
+        res.send("Login failed! Your in wrong domain verify heading")
       }
     }
     catch{
@@ -57,12 +57,17 @@ app.post("/login/:name", async (req, res) => {
     }
 })
 
+
+
+
+app.use("/signup",SignupRoute)
+
 app.use(Auth)
 app.use("/appointment",AppointmentRoute)
 app.use("/users",UserRoute)
 app.use("/doctor",DoctorRoute)
 
-app.use(AdminAuth)
+ app.use(AdminAuth)
 app.use("/admin",AdminRoute)
 
 
