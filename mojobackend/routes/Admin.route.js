@@ -31,7 +31,6 @@ AdminRoute.post("/signup",async(req,res)=>{
 })
 
 
-
 AdminRoute.get("/userdetails",async(req,res)=>{
     try{       
             const users=await UserModel.find()
@@ -62,7 +61,7 @@ AdminRoute.delete("/doctordelete/:id",async (req,res)=>{
     console.log("userid2",userid)
     try{
             await DoctorModel.findByIdAndDelete({_id:id})
-            res.send("Appointment deleted Successfully")
+            res.send("Doctor deleted Successfully")
     }
     catch(err){
         res.send("Error in deleting Appointment")
@@ -72,8 +71,8 @@ AdminRoute.delete("/doctordelete/:id",async (req,res)=>{
 AdminRoute.delete("/userdelete/:id",async (req,res)=>{
     const id=req.params.id
     try{
-            await DoctorModel.findByIdAndDelete({_id:id})
-            res.send("Appointment deleted Successfully")
+            await UserModel.findByIdAndDelete({_id:id})
+            res.send("User deleted Successfully")
     }
     catch(err){
         res.send("Error in deleting Appointment")

@@ -1,16 +1,18 @@
 const express=require('express')
-const {ApointmentModel}=require('../models/Appointment.model')
+const {ApointmentModel}=require('../models/Appointment.model');
+const { UserModel } = require('../models/Users.model');
 
 const AppointmentRoute=express.Router()
 
 AppointmentRoute.get("/",async(req,res)=>{
     const id=req.body.userid;
     const adminid="6399fc73a8a5115558ab789a";
-    
+    console.log("adminid",adminid)
+    console.log("id",id)
     try{
         if(id==adminid){ 
             const allAppointments=await ApointmentModel.find()
-            res.send({data:allAppointments,userid:id})
+            res.send(allAppointments)
         }else{
             const appointments=await ApointmentModel.find({$or:[{userid:id},{docterid:id}]})    
             
@@ -20,6 +22,19 @@ AppointmentRoute.get("/",async(req,res)=>{
     catch(err){
         console.log(err);
         res.send("Error in getting appointment data please try again later!")
+    }  
+})
+
+AppointmentRoute.get("/getuser/:userid",async(req,res)=>{
+    const userid=req.params.userid
+    console.log("userid",userid)
+    try {      
+            const user=await UserModel.findOne({_id:userid})
+            res.send(user)  
+    }
+    catch(err){
+        console.log(err);
+        res.send("Error in getting user data please try again later!")
     }  
 })
 
