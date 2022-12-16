@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react'
-import AppointmentCard from './AppointmentCard'
 
 const DoctorsCard = ({data,userid}) => {
   const {fullname,email,experience,expertise,image,}=data
@@ -12,14 +11,14 @@ const DoctorsCard = ({data,userid}) => {
     axios({
       method: 'post',
       data:payload,
-      url: `http://localhost:8080/appointment/createappointment/${data._id}`,
+      url: `https://prussian-blue-ostrich-kit.cyclic.app/appointment/createappointment/${data._id}`,
       headers:{'authorization':`Bearer ${localStorage.getItem("token")}`}
   })
   .then((res)=>{
-    console.log(res)
+    alert(res.data);
   })
   .catch((err)=>console.log(err))
-  console.log(payload)
+  
   }
 
   const handlechange=(e)=>{

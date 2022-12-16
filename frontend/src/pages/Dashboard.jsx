@@ -15,7 +15,7 @@ const Dashboard = () => {
   useEffect(() => {
     axios({
       method: 'get',
-      url: 'http://localhost:8080/users/getdoctors',
+      url: 'https://prussian-blue-ostrich-kit.cyclic.app/users/getdoctors',
       headers: { 'authorization': `Bearer ${localStorage.getItem("token")}` }
     })
       .then((res) => {
@@ -28,7 +28,7 @@ const Dashboard = () => {
   useEffect(() => {
     axios({
       method: 'get',
-      url: 'http://localhost:8080/appointment',
+      url: 'https://prussian-blue-ostrich-kit.cyclic.app/appointment',
       headers: { 'authorization': `Bearer ${localStorage.getItem("token")}` }
     })
       .then((res) => {

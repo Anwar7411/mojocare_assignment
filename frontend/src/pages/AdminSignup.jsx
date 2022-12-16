@@ -20,7 +20,7 @@ const AdminSignup = () => {
           if(values.fullname!="" && values.email!=""  && values.password!=""){
             axios({
                 method: 'post',
-                url: 'http://localhost:8080/admin/signup',
+                url: 'https://prussian-blue-ostrich-kit.cyclic.app/admin/signup',
                 data:values
             }).then((res)=>alert(res.data)).catch((err)=>console.log(err)).finally(setValues(initialvalues))        
           }else{

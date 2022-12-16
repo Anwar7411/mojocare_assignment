@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
-import Doctorsignup from '../components/Doctorsignup'
-import Usersignup from '../components/Usersignup'
+import Doctorsignup from './Doctorsignup'
+import Usersignup from './Usersignup'
 
 const AllSignup = () => {
   const [signupchoice, setSignupchoice] = useState("user")

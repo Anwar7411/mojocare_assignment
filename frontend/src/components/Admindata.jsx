@@ -6,31 +6,28 @@ const Admindata = ({ data,userdata }) => {
 
     const [admindata,setAdmindata]=useState("")
     
-     
-  
-    //userdata==='user'? setAdmindata("userdelete"):setAdmindata("doctordelete")
 
     const handledelete = () => {
         userdata==='user'?axios({
             method: 'delete',
-            url: `http://localhost:8080/admin/userdelete/${data._id}`,
+            url: `https://prussian-blue-ostrich-kit.cyclic.app/admin/userdelete/${data._id}`,
             headers: { 'authorization': `Bearer ${localStorage.getItem("token")}` }
         })
             .then((res) => {
-                console.log(res)
+                alert(res.data);
+                window.location.reload()
             })
             .catch((err) => console.log(err)) :
             axios({
                 method: 'delete',
-                url: `http://localhost:8080/admin/doctordelete/${data._id}`,
+                url: `https://prussian-blue-ostrich-kit.cyclic.app/admin/doctordelete/${data._id}`,
                 headers: { 'authorization': `Bearer ${localStorage.getItem("token")}` }
             })
                 .then((res) => {
-                    console.log(res)
+                    alert(res.data);
+                    window.location.reload()
                 })
-                .catch((err) => console.log(err))
-        
-        
+                .catch((err) => console.log(err))      
     }
 
 

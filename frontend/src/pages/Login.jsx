@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
     const initialvalues={
@@ -8,6 +9,7 @@ const Login = () => {
       }
         const[values,setValues]=useState(initialvalues)
         const[selectchoice,setSelectchoice]=useState("user")
+        const navigate=useNavigate()
         const handlechange=(e)=>{
           const valuechanged=e.target.value;
           setValues({...values,[e.target.name]:valuechanged})
@@ -17,12 +19,13 @@ const Login = () => {
           if( values.email!=""  && values.password!=""){
             axios({
               method: 'post',
-              url: `http://localhost:8080/login/${selectchoice}`,
+              url: `https://prussian-blue-ostrich-kit.cyclic.app/login/${selectchoice}`,
               data:values
           })
           .then((res)=>{
             localStorage.setItem("token",res.data.token)
             alert(res.data.msg?res.data.msg:res.data);
+          res.data.msg=="Login successfull"?navigate("/dashboard"):navigate("/login")
           })
           .catch((err)=>alert("Something went please try again later!"))
           .finally(setValues(initialvalues))

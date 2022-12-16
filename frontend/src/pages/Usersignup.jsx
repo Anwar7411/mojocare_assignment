@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import './signup.css'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const Usersignup = () => {
   const initialvalues={
@@ -11,6 +12,7 @@ const Usersignup = () => {
     password:"",
   }
     const[values,setValues]=useState(initialvalues)
+    const navigate=useNavigate()
     const handlechange=(e)=>{
       const valuechanged=e.target.value;
       setValues({...values,[e.target.name]:valuechanged})
@@ -21,9 +23,14 @@ const Usersignup = () => {
       if(values.fullname!="" && values.email!="" && values.phone!="" && values.password!=""){
         axios({
           method: 'post',
-          url: 'http://localhost:8080/signup/usersignup',
+          url: 'https://prussian-blue-ostrich-kit.cyclic.app/signup/usersignup',
           data:values
-      }).then((res)=>alert(res.data)).catch((err)=>console.log(err)).finally(setValues(initialvalues))
+      })
+      .then((res)=>{
+        alert(res.data);
+        navigate("/dashboard")
+      })
+      .catch((err)=>console.log(err)).finally(setValues(initialvalues))
       }else{
         alert("Enter all details")
       }

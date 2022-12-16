@@ -1,18 +1,31 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import { useEffect } from 'react';
 
 const AppointmentCard = ({data}) => {
-  const {fullname,email,experience,expertise,image,}=data
-  const [payload,setpayload]=useState(data)
+  const {fullname,email,experience,expertise,image,userid}=data
+  const [payload,setpayload]=useState(data);
+  const [userdata,setUserData]=useState([])
 
   const handlechange=(e)=>{
     setpayload({...payload,[e.target.name]:e.target.value,})
   }
+useEffect(()=>{
+  axios({
+    method: 'get',
+    url: `https://prussian-blue-ostrich-kit.cyclic.app/appointment/getuser/${userid}`,
+    headers:{'authorization':`Bearer ${localStorage.getItem("token")}`}
+})
+.then((res)=>{
+  setUserData(res.data)
+})
+.catch((err)=>console.log(err))
+},[])
 
   const handledelete=()=>{
     axios({
       method: 'delete',
-      url: `http://localhost:8080/appointment/delete/${data._id}`,
+      url: `https://prussian-blue-ostrich-kit.cyclic.app/appointment/delete/${data._id}`,
       headers:{'authorization':`Bearer ${localStorage.getItem("token")}`}
   })
   .then((res)=>{
@@ -27,7 +40,7 @@ const AppointmentCard = ({data}) => {
     axios({
       method: 'patch',
       data:payload,
-      url: `http://localhost:8080/appointment/edit/${data._id}`,
+      url: `https://prussian-blue-ostrich-kit.cyclic.app/appointment/edit/${data._id}`,
       headers:{'authorization':`Bearer ${localStorage.getItem("token")}`}
   })
   .then((res)=>{
@@ -50,6 +63,12 @@ const AppointmentCard = ({data}) => {
           <p>{data.fullname}</p>
           <p>{data.expertise}</p>
           <p>{data.experience}</p>
+        </div>
+        <div>
+          <h3>Patient Details</h3>
+        <p>{userdata.fullname}</p>
+          <p>{userdata.phone}</p>
+          <p>{userdata.email}</p>
         </div>
         </div>
       </div>

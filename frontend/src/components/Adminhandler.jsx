@@ -11,7 +11,7 @@ const Adminhandler = () => {
     useEffect(()=>{
         axios({
               method: 'get',
-              url: 'http://localhost:8080/admin/userdetails',
+              url: 'https://prussian-blue-ostrich-kit.cyclic.app/admin/userdetails',
               headers:{'authorization':`Bearer ${localStorage.getItem("token")}`}
           })
           .then((res)=>{
@@ -23,7 +23,7 @@ const Adminhandler = () => {
       useEffect(()=>{
         axios({
               method: 'get',
-              url: 'http://localhost:8080/admin/docterdetails',
+              url: 'https://prussian-blue-ostrich-kit.cyclic.app/admin/docterdetails',
               headers:{'authorization':`Bearer ${localStorage.getItem("token")}`}
           })
           .then((res)=>{
