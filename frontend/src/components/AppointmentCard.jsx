@@ -13,7 +13,7 @@ const AppointmentCard = ({data}) => {
 useEffect(()=>{
   axios({
     method: 'get',
-    url: `https://prussian-blue-ostrich-kit.cyclic.app/appointment/getuser/${userid}`,
+    url: `http://localhost:8080/appointment/getuser/${userid}`,
     headers:{'authorization':`Bearer ${localStorage.getItem("token")}`}
 })
 .then((res)=>{
@@ -25,7 +25,7 @@ useEffect(()=>{
   const handledelete=()=>{
     axios({
       method: 'delete',
-      url: `https://prussian-blue-ostrich-kit.cyclic.app/appointment/delete/${data._id}`,
+      url: `http://localhost:8080/appointment/delete/${data._id}`,
       headers:{'authorization':`Bearer ${localStorage.getItem("token")}`}
   })
   .then((res)=>{
@@ -40,7 +40,7 @@ useEffect(()=>{
     axios({
       method: 'patch',
       data:payload,
-      url: `https://prussian-blue-ostrich-kit.cyclic.app/appointment/edit/${data._id}`,
+      url: `http://localhost:8080/appointment/edit/${data._id}`,
       headers:{'authorization':`Bearer ${localStorage.getItem("token")}`}
   })
   .then((res)=>{

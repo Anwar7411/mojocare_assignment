@@ -15,7 +15,7 @@ const Dashboard = () => {
   useEffect(() => {
     axios({
       method: 'get',
-      url: 'https://prussian-blue-ostrich-kit.cyclic.app/users/getdoctors',
+      url: 'http://localhost:8080/users/getdoctors',
       headers: { 'authorization': `Bearer ${localStorage.getItem("token")}` }
     })
       .then((res) => {
@@ -28,7 +28,7 @@ const Dashboard = () => {
   useEffect(() => {
     axios({
       method: 'get',
-      url: 'https://prussian-blue-ostrich-kit.cyclic.app/appointment',
+      url: 'http://localhost:8080/appointment',
       headers: { 'authorization': `Bearer ${localStorage.getItem("token")}` }
     })
       .then((res) => {
@@ -42,7 +42,7 @@ const Dashboard = () => {
   return (
 
     <div>
-      <div>
+      <div style={{display:"flex",gap:"30px",cursor:"pointer"}}>
         <div onClick={() => setChoose("getdoctor")}>See All Doctors</div>
         <div onClick={() => setChoose("getappointment")}>Appointments</div>
         {userid == "6399fc73a8a5115558ab789a" ? <div onClick={()=>setChoose("getusers")}>Delete user or doctor</div> : ""}

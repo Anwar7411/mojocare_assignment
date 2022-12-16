@@ -19,7 +19,7 @@ const Login = () => {
           if( values.email!=""  && values.password!=""){
             axios({
               method: 'post',
-              url: `https://prussian-blue-ostrich-kit.cyclic.app/login/${selectchoice}`,
+              url: `http://localhost:8080/login/${selectchoice}`,
               data:values
           })
           .then((res)=>{
@@ -36,7 +36,7 @@ const Login = () => {
         
       return (
         <div>
-          <div>
+          <div style={{display:"flex",gap:"20px",marginLeft:"34%"}}>
             <button onClick={()=>setSelectchoice("user")}>Login As A User</button>
             <button onClick={()=>setSelectchoice("doctor")}>Login As A Doctor</button>
             <button onClick={()=>setSelectchoice("admin")}>Login As A Admin</button>

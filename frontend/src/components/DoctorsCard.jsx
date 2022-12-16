@@ -11,7 +11,7 @@ const DoctorsCard = ({data,userid}) => {
     axios({
       method: 'post',
       data:payload,
-      url: `https://prussian-blue-ostrich-kit.cyclic.app/appointment/createappointment/${data._id}`,
+      url: `http://localhost:8080/appointment/createappointment/${data._id}`,
       headers:{'authorization':`Bearer ${localStorage.getItem("token")}`}
   })
   .then((res)=>{

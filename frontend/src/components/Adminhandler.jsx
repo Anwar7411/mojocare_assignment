@@ -11,7 +11,7 @@ const Adminhandler = () => {
     useEffect(()=>{
         axios({
               method: 'get',
-              url: 'https://prussian-blue-ostrich-kit.cyclic.app/admin/userdetails',
+              url: 'http://localhost:8080/admin/userdetails',
               headers:{'authorization':`Bearer ${localStorage.getItem("token")}`}
           })
           .then((res)=>{
@@ -23,7 +23,7 @@ const Adminhandler = () => {
       useEffect(()=>{
         axios({
               method: 'get',
-              url: 'https://prussian-blue-ostrich-kit.cyclic.app/admin/docterdetails',
+              url: 'http://localhost:8080/admin/docterdetails',
               headers:{'authorization':`Bearer ${localStorage.getItem("token")}`}
           })
           .then((res)=>{
@@ -35,7 +35,7 @@ const Adminhandler = () => {
 
   return (
     <div>
-        <div>
+        <div style={{display:"flex",gap:"30px",cursor:"pointer"}}>
             <button onClick={()=>setState("user")}>Users</button>
             <button onClick={()=>setState("doctor")}>Docters</button>
         </div>

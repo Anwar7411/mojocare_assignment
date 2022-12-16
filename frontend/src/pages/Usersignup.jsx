@@ -23,7 +23,7 @@ const Usersignup = () => {
       if(values.fullname!="" && values.email!="" && values.phone!="" && values.password!=""){
         axios({
           method: 'post',
-          url: 'https://prussian-blue-ostrich-kit.cyclic.app/signup/usersignup',
+          url: 'http://localhost:8080/signup/usersignup',
           data:values
       })
       .then((res)=>{

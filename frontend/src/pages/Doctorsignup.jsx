@@ -26,7 +26,7 @@ const Doctorsignup = () => {
           if(values.fullname!="" && values.email!="" && values.phone!="" && values.password!="" && values.experience!="" && values.expertise!="" && values.image!=""){
             axios({
               method: 'post',
-              url: 'https://prussian-blue-ostrich-kit.cyclic.app/signup/doctorsignup',
+              url: 'http://localhost:8080/signup/doctorsignup',
               data:values
           })
           .then((res)=>{
