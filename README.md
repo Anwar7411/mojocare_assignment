@@ -2,6 +2,7 @@
 
   # Features
   Admin<br />
+  
      Admin can delete patients<br />
      Admin can delete Doctors<br />
      Admin can add to other admin<br />
@@ -11,6 +12,7 @@
      
      
   Doctor<br />
+
       Doctor can veiw Appointment of his<br />
       Doctor can veiw all patient Appointment Booked with him<br />
       Doctor can edit or reshedule appointment<br />
@@ -18,6 +20,7 @@
       
       
    User/Patient<br />
+
        patient can view all doctors<br />
        patient can book appointment<br/>
        patient can editor reschedule appointment<br />
@@ -40,7 +43,7 @@
      Added real Authentication 
      Added Admin Authorization for only admin
     
-     React deployed link:  https://mojo-eight.vercel.app/
+     React deployed link:   https://mojo-eight.vercel.app
      
      backend deployed link : deployed with cyclic.sh but getting cors error run a localport on 8080 
        
